@@ -20,6 +20,7 @@ class CreateContactsTable extends Migration
             $table->string('email')->nullable();
             $table->string('phone')->nullable();
             $table->string('address')->nullable();
+            $table->string('photo')->nullable();
             $table->bigInteger('group_id')->unsigned()->index();
             $table->timestamps();
 
