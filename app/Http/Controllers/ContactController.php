@@ -35,11 +35,16 @@ class ContactController extends Controller
     if (session('success'))
       Alert::success('Success!', session('success'));
 
-    if ($group_id = ($request->get('group_id'))) {
-      $contacts = Contact::where('group_id', $group_id)->orderByDesc('id')->paginate(5);
-    } else {
-      $contacts = Contact::orderByDesc('id')->paginate(5);
-    }
+    $contacts = Contact::where(function ($query) use ($request) {
+      if ($group_id = ($request->get('group_id')))
+        $query->where('group_id', $group_id);
+
+      if ($term = ($request->get('term'))) {
+        $query->orWhere('name', 'LIKE', "%{$term}%");
+        $query->orWhere('company', 'LIKE', "%{$term}%");
+        $query->orWhere('email', 'LIKE', "%{$term}%");
+      }
+    })->orderByDesc('id')->paginate(5);
 
     return view('contacts.index', compact('contacts'));
   }

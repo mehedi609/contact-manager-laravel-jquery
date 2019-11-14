@@ -21,7 +21,28 @@
 
       <div class="collapse navbar-collapse " id="navbarNavAltMarkup">
         <div class="navbar-nav ml-auto">
-          <a href="{{route('contacts.create')}}" class="nav-item nav-link btn btn-outline-success " >
+
+          <form action="{{route('contacts.index')}}" class="form-inline my-2 my-lg-0">
+            <div class="input-group">
+              <input
+                type="text"
+                name="term"
+                value="{{Request::get('term')}}"
+                class="form-control"
+                placeholder="Search..."
+              >
+              <span class="input-group-append">
+                <button class="btn btn-primary" type="submit">
+                  <i class="fas fa-search"></i>
+                </button>
+              </span>
+            </div>
+          </form>
+
+          <a
+            href="{{route('contacts.create')}}"
+            class="nav-item nav-link btn btn-outline-success ml-2"
+          >
             <i class="fas fa-plus"></i> Add Contact
           </a>
         </div>

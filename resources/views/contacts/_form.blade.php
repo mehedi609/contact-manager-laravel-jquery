@@ -156,7 +156,7 @@
       <div class="row">
         <div class="offset-md-3 col-md-9">
           <button type="submit" class="btn btn-primary">{{$buttonValue}}</button>
-          <a href="#" class="btn btn-danger ml-2">Cancel</a>
+          <a href="{{route('contacts.index')}}" class="btn btn-danger ml-2">Cancel</a>
         </div>
       </div>
     </div>
