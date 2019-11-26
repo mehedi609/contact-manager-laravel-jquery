@@ -105,7 +105,25 @@
         </div>
 
         <div class="col-sm-3">
-          <a href="#" class="btn btn-outline-secondary btn-block">Add Group</a>
+          <a href="#" id="add-group-button" class="btn btn-outline-secondary btn-block">Add Group</a>
+        </div>
+      </div>
+
+      <div class="form-group row" id="add-new-group" style="display: none">
+        <div class="offset-md-3 col-md-8">
+          <div class="input-group">
+            <input
+              type="text"
+              name="new_group"
+              id="new_group"
+              class="form-control"
+            >
+            <span class="input-group-append">
+                <a href="#" id="add-new-btn" class="btn btn-primary" type="submit">
+                  <i class="fas fa-check"></i>
+                </a>
+              </span>
+          </div>
         </div>
       </div>
     </div>
@@ -162,3 +180,42 @@
     </div>
   </div>
 </div>
+
+@section('script-add-group')
+  <script>
+    $('#add-new-group').hide();
+    $('#add-group-button').click(function () {
+        $('#add-new-group').slideToggle(function () {
+            $('#new_group').focus();
+        });
+        return false;
+    });
+
+    $('#add-new-btn').click(function (event) {
+        // event.preventDefault();
+        $.ajax({
+            url: "{{route('groups.store')}}",
+            method: 'post',
+            data: {
+                name: $('#new_group').val(),
+                _token: "{{csrf_token()}}"
+            },
+            success: function (response) {
+                console.log(response)
+            },
+            error: function (error) {
+                const err_msg = error.responseJSON.errors.name[0];
+
+                if(err_msg) {
+                    const inputGroup = $('#new_group').closest('.input-group');
+                    inputGroup.next('.text-danger').remove();
+
+                    inputGroup
+                        .css({'border': '1px solid red', 'borderRadius': '5px'})
+                        .after(`<p class="text-danger">${err_msg}</p>`)
+                }
+            }
+        })
+    })
+  </script>
+@stop

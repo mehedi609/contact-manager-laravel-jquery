@@ -35,7 +35,13 @@ class GroupController extends Controller
      */
     public function store(Request $request)
     {
-        //
+      $this->validate($request, [
+        'name' => 'required|unique:groups'
+      ]);
+
+      Group::create($request->all());
+
+      echo "1";
     }
 
     /**

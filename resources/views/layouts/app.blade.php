@@ -8,6 +8,7 @@
     <link rel="stylesheet" href="{{asset('css/bootstrap.min.css')}}">
     <link rel="stylesheet" href="{{asset('font-awesome/css/all.min.css')}}">
     <link rel="stylesheet" href="{{asset('css/jasny-bootstrap.min.css')}}">
+    <link rel="stylesheet" href="{{asset('css/jquery-ui.min.css')}}">
     <link rel="stylesheet" href="{{asset('css/custom.css')}}">
     <title>My Contact</title>
   </head>
@@ -84,6 +85,21 @@
     <script src="{{asset('js/popper-1.15.min.js')}}"></script>
     <script src="{{asset('js/bootstrap.min.js')}}"></script>
     <script src="{{asset('js/jasny-bootstrap.min.js')}}"></script>
+    <script src="{{asset('js/jquery-ui.min.js')}}"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery-migrate/3.0.1/jquery-migrate.min.js"></script>
     @include('sweetalert::alert')
+    <script>
+      $(function () {
+          console.log('ahoasdf')
+          $("input[name=term]").autocomplete({
+              source: "{{route('contacts.autocomplete')}}",
+              minLength: 3,
+              select: function (event, ui) {
+                  $(this).val(ui.item.value)
+              }
+          })
+      })
+    </script>
+    @yield('script-add-group')
   </body>
 </html>

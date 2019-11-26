@@ -166,4 +166,20 @@ class ContactController extends Controller
       ->route('contacts.index')
       ->with('success', 'Contact Deleted!');
   }
+
+  public function autocomplete(Request $request)
+  {
+    if ($request->ajax()) {
+      $contacts = Contact::select(['id', 'name'])->where(function ($query) use ($request) {
+        if ($term = ($request->get('term'))) {
+          $query->orWhere('name', 'LIKE', "%{$term}%");
+          $query->orWhere('company', 'LIKE', "%{$term}%");
+          $query->orWhere('email', 'LIKE', "%{$term}%");
+        }
+      })->orderBy('name')->take(5)->get();
+      return $contacts;
+    } else {
+      return abort(404);
+    }
+  }
 }
